@@ -17,8 +17,10 @@ public class Player {
     @Column(name = "player_age")
     private int age;
 
+    @OneToOne
+    @JoinColumn(name = "player_rating_id")
     @Enumerated(EnumType.STRING)
-    private PlayerSkill playerSkill;
+    private PlayerRating playerSkill;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "team_id")
@@ -32,11 +34,11 @@ public class Player {
         this.team = team;
     }
 
-    public PlayerSkill getPlayerSkill() {
+    public PlayerRating getPlayerSkill() {
         return playerSkill;
     }
 
-    public void setPlayerSkill(PlayerSkill playerSkill) {
+    public void setPlayerSkill(PlayerRating playerSkill) {
         this.playerSkill = playerSkill;
     }
 
