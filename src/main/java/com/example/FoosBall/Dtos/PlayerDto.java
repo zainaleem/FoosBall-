@@ -1,5 +1,6 @@
 package com.example.FoosBall.Dtos;
 
+import com.example.FoosBall.Entity.PlayerRating;
 import com.example.FoosBall.Enum.PlayerSkill;
 
 public class PlayerDto {
@@ -10,7 +11,7 @@ public class PlayerDto {
 
     private int age;
 
-   private PlayerSkill playerSkill;
+   private PlayerRating playerSkill;
 
     private TeamDto teamDto;
 
@@ -38,11 +39,11 @@ public class PlayerDto {
         this.age = age;
     }
 
-    public PlayerSkill getPlayerSkill() {
+    public PlayerRating getPlayerSkill() {
         return playerSkill;
     }
 
-    public void setPlayerSkill(PlayerSkill playerSkill) {
+    public void setPlayerSkill(PlayerRating playerSkill) {
         this.playerSkill = playerSkill;
     }
 
