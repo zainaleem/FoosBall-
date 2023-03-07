@@ -7,9 +7,11 @@ import com.example.FoosBall.Dtos.TeamDto;
 import com.example.FoosBall.Entity.Player;
 import com.example.FoosBall.Entity.Team;
 import com.example.FoosBall.Exception.NameException;
+import com.example.FoosBall.Exception.RecordNotFoundException;
 import com.example.FoosBall.Repository.PlayerRepository;
 import com.example.FoosBall.Repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,14 +70,50 @@ public class PlayerServiceImpl implements Service<PlayerDto>{
 
     @Override
     public void deleteUsingId(Long id) {
-        playerRepo.deleteById(id);
+        Optional<Player> playerOptional = playerRepo.findById(id);
+        if(playerOptional.isPresent()){
+            playerRepo.delete(playerOptional.get());
+        }
+        else {
+            throw new RecordNotFoundException("Player not found");
+        }
     }
 
     @Override
-    public PlayerDto update(Long id, PlayerDto dto) {
-        return null;
+    public void deleteUsingName(String name) {
+        Player player = playerRepo.findByName(name);
+        if(player != null){
+            playerRepo.delete(player);
+        }
+        else {
+            throw new RecordNotFoundException("Player not found");
+        }
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class) //ye laga diye ab ye khud save karey ga
+    public PlayerDto update(Long id, PlayerDto dto) {
+        PlayerAdapter playerAdapter = new PlayerAdapter();
+        Player updatePlayer = null;
+        Optional<Player> playerOptional = playerRepo.findById(dto.getId());
 
+        if(playerOptional.isPresent()) {
+            updatePlayer = playerAdapter.convertDtoToDaoUpdate(dto,playerOptional.get());
+            //studentRepo.save(updateStudents);
+        }
+        return playerAdapter.convertDaoToDto(updatePlayer);
+    }
 
+    @Override
+    public PlayerDto patch(Long id, PlayerDto dto) {
+        PlayerAdapter playerAdapter = new PlayerAdapter();
+        Player patchPlayer = null;
+        Optional<Player> playerOptional  = playerRepo.findById(dto.getId());
+        //.orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
+        if(playerOptional.isPresent()){
+            patchPlayer = playerAdapter.convertDtoToDaoPatch(dto,playerOptional.get());
+            playerRepo.save(patchPlayer);
+        }
+        return playerAdapter.convertDaoToDto(patchPlayer);
+    }
 }

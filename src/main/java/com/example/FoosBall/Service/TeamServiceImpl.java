@@ -2,11 +2,13 @@ package com.example.FoosBall.Service;
 
 import com.example.FoosBall.Adapter.TeamAdapter;
 import com.example.FoosBall.Dtos.TeamDto;
+import com.example.FoosBall.Entity.Player;
 import com.example.FoosBall.Entity.Team;
 import com.example.FoosBall.Exception.NameException;
 import com.example.FoosBall.Exception.RecordNotFoundException;
 import com.example.FoosBall.Repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +67,43 @@ public class TeamServiceImpl implements Service<TeamDto>{
     }
 
     @Override
-    public TeamDto update(Long id, TeamDto dto) {
-        return null;
+    public void deleteUsingName(String name) {
+        Team team = teamRepo.findByName(name);
+        if(team != null){
+            teamRepo.delete(team);
+        }
+        else {
+            throw new RecordNotFoundException("Player not found");
+        }
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class) //ye laga diye ab ye khud save karey ga
+    public TeamDto update(Long id, TeamDto dto) {
+        TeamAdapter teamAdapter = new TeamAdapter();
+        Team updateTeam = null;
+        Optional<Team> teamOptional = teamRepo.findById(dto.getId());
+
+        if(teamOptional.isPresent()) {
+            updateTeam = teamAdapter.convertDtoToDaoUpdate(dto,teamOptional.get());
+            //studentRepo.save(updateStudents);
+        }
+        return teamAdapter.convertDaoToDto(updateTeam);
+    }
+
+    @Override
+    public TeamDto patch(Long id, TeamDto dto) {
+        TeamAdapter teamAdapter = new TeamAdapter();
+        Team patchTeam = null;
+        Optional<Team> teamOptional = teamRepo.findById(dto.getId());
+        //.orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
+        if(teamOptional.isPresent()){
+            patchTeam = teamAdapter.convertDtoToDaoPatch(dto,teamOptional.get());
+            teamRepo.save(patchTeam);
+        }
+        return teamAdapter.convertDaoToDto(patchTeam);
+    }
+
+
+
 }

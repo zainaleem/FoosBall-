@@ -43,4 +43,20 @@ public class PlayerAdapter implements Adapter<PlayerDto, Player>{
         playerDto.setTeamDto(teamDto);
         return playerDto;
     }
+
+    public Player convertDtoToDaoUpdate(PlayerDto playerDto, Player player) {
+        player.setName(playerDto.getName());
+        player.setAge(playerDto.getAge());
+        return player;
+    }
+
+    public Player convertDtoToDaoPatch(PlayerDto playerDto, Player player) {
+        if (playerDto.getName() != null) {
+            player.setName(playerDto.getName());
+        } else if (playerDto.getAge()!= null) {
+            player.setAge(playerDto.getAge());
+        }
+
+        return player;
+    }
 }

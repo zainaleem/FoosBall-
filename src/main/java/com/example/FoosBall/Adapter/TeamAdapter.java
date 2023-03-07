@@ -18,4 +18,14 @@ public class TeamAdapter implements Adapter<TeamDto, Team>{
         teamDto.setId(team.getId());
         return teamDto;
     }
+    public Team convertDtoToDaoUpdate(TeamDto teamDto, Team team) {
+        team.setName(teamDto.getName());
+        return team;
+    }
+    public Team convertDtoToDaoPatch(TeamDto teamDto, Team team) {
+        if (teamDto.getName() != null) {
+            team.setName(teamDto.getName());
+        }
+        return team;
+    }
 }

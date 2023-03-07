@@ -1,6 +1,7 @@
 package com.example.FoosBall.Controller;
 
 import com.example.FoosBall.Dtos.PlayerDto;
+import com.example.FoosBall.Dtos.TeamDto;
 import com.example.FoosBall.Exception.NameException;
 import com.example.FoosBall.Service.PlayerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,4 +46,28 @@ public class PlayerController {
             return null;
         }
     }
+
+    @PutMapping("/player/{id}")
+    public ResponseEntity<PlayerDto> updatePlayer(@PathVariable Long id, @RequestBody PlayerDto playerDto)
+    {
+        playerService.update(id,playerDto);
+        return new ResponseEntity<PlayerDto>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/player/{id}")
+    public PlayerDto patchPlayer(@PathVariable Long id, @RequestBody PlayerDto playerDto) {
+        return playerService.patch(id, playerDto);
+    }
+
+    @DeleteMapping("/player/{id}")
+    public ResponseEntity<PlayerDto> deletePlayer(@PathVariable Long id){
+        playerService.deleteUsingId(id);
+        return new ResponseEntity<PlayerDto>(HttpStatus.OK);
+    }
+    @DeleteMapping("/player/{name}")
+    public ResponseEntity<PlayerDto> deletePlayerUsingName(@PathVariable String name){
+        playerService.deleteUsingName(name);
+        return new ResponseEntity<PlayerDto>(HttpStatus.OK);
+    }
+
 }

@@ -10,6 +10,10 @@ public interface Service<T> {
 
     public void deleteUsingId(Long id);
 
+    public void deleteUsingName(String name);
+
     public T update(Long id,T dto);
+
+    public T patch(Long id,T dto);
 
 }
