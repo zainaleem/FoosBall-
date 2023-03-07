@@ -15,7 +15,7 @@ public class Player {
     private String name;
 
     @Column(name = "player_age")
-    private int age;
+    private Integer age;
 
     @OneToOne
     @JoinColumn(name = "player_rating_id")
@@ -58,11 +58,11 @@ public class Player {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 

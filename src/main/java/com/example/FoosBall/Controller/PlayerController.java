@@ -3,6 +3,7 @@ package com.example.FoosBall.Controller;
 import com.example.FoosBall.Dtos.PlayerDto;
 import com.example.FoosBall.Dtos.TeamDto;
 import com.example.FoosBall.Exception.NameException;
+import com.example.FoosBall.Repository.PlayerRepository;
 import com.example.FoosBall.Service.PlayerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,11 +19,17 @@ public class PlayerController {
     @Autowired
     PlayerServiceImpl playerService;
 
+
     @GetMapping("/players")
     public ResponseEntity<List<PlayerDto>> getPlayers() {
+        //return new ResponseEntity<>(playerRepo.findAllNames(), HttpStatus.OK);
         return new ResponseEntity<>(playerService.findAll(), HttpStatus.OK);
     }
+    @GetMapping("/playerNames")
+    public ResponseEntity<List<String>> getPlayerNames() {
+        return new ResponseEntity<>(playerService.findAllPlayerNames(), HttpStatus.OK);
 
+    }
     @GetMapping("/player/{name}")
     public ResponseEntity<PlayerDto> getPlayerByName(@PathVariable String name) {
         return new ResponseEntity<>(playerService.findByPlayerName(name), HttpStatus.OK);

@@ -9,10 +9,12 @@ import java.util.List;
 
 public interface PlayerRepository extends JpaRepository<Player,Long> {
 
+
+    @Query(value = "SELECT p.player_name FROM Player p",nativeQuery = true)
+    List<String> findAllNames();
     Player findByName(String name);
     List<Player> findByTeamName(String name);
 
-    //@Query(value = "SELECT player_name FROM player GROUP BY team_id")
 
 
 }

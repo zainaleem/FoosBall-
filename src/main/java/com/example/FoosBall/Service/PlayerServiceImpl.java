@@ -36,6 +36,11 @@ public class PlayerServiceImpl implements Service<PlayerDto>{
         return playerDtoList;
     }
 
+    public List<String> findAllPlayerNames(){
+    List<String> playerNames= playerRepo.findAllNames();
+    return playerNames;
+    }
+
     public PlayerDto findByPlayerName(String name) {
         PlayerAdapter playerAdapter=new PlayerAdapter();
         Player player = playerRepo.findByName(name);
