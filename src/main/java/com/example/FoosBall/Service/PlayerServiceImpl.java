@@ -1,7 +1,9 @@
 package com.example.FoosBall.Service;
 
 import com.example.FoosBall.Adapter.PlayerAdapter;
+import com.example.FoosBall.Adapter.TeamAdapter;
 import com.example.FoosBall.Dtos.PlayerDto;
+import com.example.FoosBall.Dtos.TeamDto;
 import com.example.FoosBall.Entity.Player;
 import com.example.FoosBall.Entity.Team;
 import com.example.FoosBall.Exception.NameException;
@@ -32,6 +34,21 @@ public class PlayerServiceImpl implements Service<PlayerDto>{
         return playerDtoList;
     }
 
+    public PlayerDto findByPlayerName(String name) {
+        PlayerAdapter playerAdapter=new PlayerAdapter();
+        Player player = playerRepo.findByName(name);
+        return playerAdapter.convertDaoToDto(player);
+    }
+
+    public List<PlayerDto> findByTeamName(String teamName){
+        PlayerAdapter playerAdapter = new PlayerAdapter();
+        List<Player> playerList = playerRepo.findByTeamName(teamName);
+        List<PlayerDto> playerDtoList = new ArrayList<>();
+        for (Player player:playerList) {
+            playerDtoList.add(playerAdapter.convertDaoToDto(player));
+        }
+        return playerDtoList;
+    }
     @Override
     public PlayerDto add(PlayerDto dto) throws NameException {
         PlayerAdapter playerAdapter = new PlayerAdapter();
@@ -58,4 +75,7 @@ public class PlayerServiceImpl implements Service<PlayerDto>{
     public PlayerDto update(Long id, PlayerDto dto) {
         return null;
     }
+
+
+
 }

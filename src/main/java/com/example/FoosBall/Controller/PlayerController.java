@@ -17,9 +17,19 @@ public class PlayerController {
     @Autowired
     PlayerServiceImpl playerService;
 
-    @GetMapping("/player")
+    @GetMapping("/players")
     public ResponseEntity<List<PlayerDto>> getPlayers() {
         return new ResponseEntity<>(playerService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/player/{name}")
+    public ResponseEntity<PlayerDto> getPlayerByName(@PathVariable String name) {
+        return new ResponseEntity<>(playerService.findByPlayerName(name), HttpStatus.OK);
+    }
+
+    @GetMapping("/players/team/{teamName}")
+    public ResponseEntity<List<PlayerDto>> getPlayerByTeamName(@PathVariable String teamName) {
+        return new ResponseEntity<>(playerService.findByTeamName(teamName), HttpStatus.OK);
     }
 
     @PostMapping("/player")
@@ -34,6 +44,5 @@ public class PlayerController {
             nameException.getMessage();
             return null;
         }
-
     }
 }

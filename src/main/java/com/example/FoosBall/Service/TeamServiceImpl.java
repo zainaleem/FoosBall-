@@ -29,6 +29,18 @@ public class TeamServiceImpl implements Service<TeamDto>{
         return teamDtoList;
     }
 
+//    public List<TeamDto> findByName() {
+//        TeamAdapter teamAdapter = new TeamAdapter();
+//        List<Team> teamList = teamRepo.findAll();
+//        List<TeamDto> teamDtoList = new ArrayList<>();
+//        for (Team team:teamList) {
+//            teamDtoList.add(teamAdapter.convertDaoToDto(team));
+//        }
+//        return teamDtoList;
+//    }
+
+
+
     @Override
     public TeamDto add(TeamDto dto) throws NameException {
         TeamAdapter teamAdapter = new TeamAdapter();

@@ -22,7 +22,7 @@ public class Player {
     @Enumerated(EnumType.STRING)
     private PlayerRating playerSkill;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 

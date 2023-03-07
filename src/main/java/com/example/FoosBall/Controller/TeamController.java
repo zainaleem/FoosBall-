@@ -23,6 +23,10 @@ public class TeamController {
         return new ResponseEntity<>(teamService.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/team/{teamName}")
+    public ResponseEntity<List<TeamDto>> getTeamByName() {
+        return new ResponseEntity<>(teamService.findAll(), HttpStatus.OK);
+    }
     @PostMapping("/team")
     public ResponseEntity<List<TeamDto>> addTeam(@RequestBody TeamDto teamDto) {
 

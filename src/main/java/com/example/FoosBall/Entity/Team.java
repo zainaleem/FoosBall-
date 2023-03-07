@@ -1,5 +1,7 @@
 package com.example.FoosBall.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class Team {
     @Column(name = "team_name")
     private String name;
 
-    @OneToMany(mappedBy = "team",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     //@JsonIgnore
     private List<Player> players;
 

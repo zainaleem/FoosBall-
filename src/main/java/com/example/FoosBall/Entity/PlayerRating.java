@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity(name = "player_rating")
 public class PlayerRating {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "player_rating_id")
     private Long id;
 
@@ -19,7 +19,7 @@ public class PlayerRating {
     @Column(name="back_hand_skill")
     private PlayerSkill backHandSkill;
 
-    @OneToOne
+    @OneToOne(mappedBy = "playerSkill")
     private Player player;
 
     public Long getId() {
