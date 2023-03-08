@@ -11,7 +11,9 @@ public class PlayerDto {
 
     private Integer age;
 
-   private PlayerRating playerSkill;
+    //private double age;
+
+    private PlayerRating playerSkill;
 
     private TeamDto teamDto;
 
@@ -54,4 +56,6 @@ public class PlayerDto {
     public void setTeamDto(TeamDto teamDto) {
         this.teamDto = teamDto;
     }
+
+
 }
