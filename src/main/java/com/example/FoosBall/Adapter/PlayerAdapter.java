@@ -1,8 +1,10 @@
 package com.example.FoosBall.Adapter;
 
 import com.example.FoosBall.Dtos.PlayerDto;
+import com.example.FoosBall.Dtos.PlayerRatingDto;
 import com.example.FoosBall.Dtos.TeamDto;
 import com.example.FoosBall.Entity.Player;
+//import com.example.FoosBall.Entity.PlayerRating;
 import com.example.FoosBall.Entity.Team;
 import com.example.FoosBall.Repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +13,14 @@ import java.util.Optional;
 
 public class PlayerAdapter implements Adapter<PlayerDto, Player>{
 
-    @Autowired
-    TeamRepository teamRepo;
     public Player convertDtoToDao(PlayerDto playerDto,Team team) {
         Player player = new Player();
+//        PlayerRatingAdapterImpl playerRatingAdapter = new PlayerRatingAdapterImpl();
+//        PlayerRating playerRating = playerRatingAdapter.convertDtoToDao(playerDto.getPlayerRatingDto());
         player.setName(playerDto.getName());
         player.setAge(playerDto.getAge());
-        player.setPlayerSkill(playerDto.getPlayerSkill());
+        //player.setPlayerRating(playerRating);
+        //player.setPlayerSkill(playerDto.getPlayerSkill());
         player.setTeam(team);
         return player;
     }
@@ -27,7 +30,6 @@ public class PlayerAdapter implements Adapter<PlayerDto, Player>{
         Player player = new Player();
         player.setName(playerDto.getName());
         player.setAge(playerDto.getAge());
-        player.setPlayerSkill(playerDto.getPlayerSkill());
         return player;
     }
 
@@ -36,10 +38,13 @@ public class PlayerAdapter implements Adapter<PlayerDto, Player>{
         PlayerDto playerDto = new PlayerDto();
         TeamAdapter teamAdapter = new TeamAdapter();
         TeamDto teamDto = teamAdapter.convertDaoToDto(player.getTeam());
+//        PlayerRatingAdapterImpl playerRatingAdapter = new PlayerRatingAdapterImpl();
+//        PlayerRatingDto playerRatingDto = playerRatingAdapter.convertDaoToDto(player.getPlayerRating());
+
         playerDto.setName(player.getName());
         playerDto.setAge(player.getAge());
-        playerDto.setPlayerSkill(player.getPlayerSkill());
         playerDto.setId(player.getId());
+        //playerDto.setPlayerRatingDto(playerRatingDto);
         playerDto.setTeamDto(teamDto);
         return playerDto;
     }

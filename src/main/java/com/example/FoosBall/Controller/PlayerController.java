@@ -49,8 +49,6 @@ public class PlayerController {
         return ResponseEntity.ok(json);
     }
 
-
-
     @GetMapping("/players")
     public ResponseEntity<List<PlayerDto>> getPlayers() {
         //return new ResponseEntity<>(playerRepo.findAllNames(), HttpStatus.OK);

@@ -17,12 +17,12 @@ public class Player {
     @Column(name = "player_age")
     private Integer age;
 
-    @OneToOne
-    @JoinColumn(name = "player_rating_id")
-    @Enumerated(EnumType.STRING)
-    private PlayerRating playerSkill;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "player_rating_id")
+//    //@Enumerated(EnumType.STRING)
+//    private PlayerRating playerRating;
 
-    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
@@ -34,13 +34,13 @@ public class Player {
         this.team = team;
     }
 
-    public PlayerRating getPlayerSkill() {
-        return playerSkill;
-    }
-
-    public void setPlayerSkill(PlayerRating playerSkill) {
-        this.playerSkill = playerSkill;
-    }
+//    public PlayerRating getPlayerRating() {
+//        return playerRating;
+//    }
+//
+//    public void setPlayerRating(PlayerRating playerRating) {
+//        this.playerRating = playerRating;
+//    }
 
     public Long getId() {
         return id;

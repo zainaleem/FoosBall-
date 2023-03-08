@@ -1,11 +1,13 @@
 package com.example.FoosBall.Service;
 
+import com.example.FoosBall.Adapter.PlayerAdapter;
 import com.example.FoosBall.Adapter.TeamAdapter;
 import com.example.FoosBall.Dtos.TeamDto;
 import com.example.FoosBall.Entity.Player;
 import com.example.FoosBall.Entity.Team;
 import com.example.FoosBall.Exception.NameException;
 import com.example.FoosBall.Exception.RecordNotFoundException;
+import com.example.FoosBall.Repository.PlayerRepository;
 import com.example.FoosBall.Repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ public class TeamServiceImpl implements Service<TeamDto>{
     @Autowired
     TeamRepository teamRepo;
 
+    @Autowired
+    PlayerRepository playerRepository;
     @Override
     public List<TeamDto> findAll() {
         TeamAdapter teamAdapter = new TeamAdapter();
@@ -40,8 +44,6 @@ public class TeamServiceImpl implements Service<TeamDto>{
 //        }
 //        return teamDtoList;
 //    }
-
-
 
     @Override
     public TeamDto add(TeamDto dto) throws NameException {
@@ -104,6 +106,24 @@ public class TeamServiceImpl implements Service<TeamDto>{
         return teamAdapter.convertDaoToDto(patchTeam);
     }
 
+    public TeamDto updateTeamWithPlayer(TeamDto teamDto){
+        PlayerAdapter playerAdapter = new PlayerAdapter();
+        TeamAdapter teamAdapter = new TeamAdapter();
+        List<Player> playerList = new ArrayList<>();
+
+        teamDto.getPlayerDtoList().forEach(playerDto -> {
+            playerList.add(playerRepository.findByName(playerDto.getName()));
+        });
+
+        Team team = teamRepo.findByName(teamAdapter.convertDtoToDao(teamDto).getName());
+        playerList.forEach(player -> {
+            player.setTeam(team);
+            team.addPlayer(player);
+        });
+
+        teamRepo.save(team);
+        return teamAdapter.convertDaoToDto(team);
+    }
 
 
 }

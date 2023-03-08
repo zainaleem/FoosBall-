@@ -16,6 +16,7 @@ public class TeamAdapter implements Adapter<TeamDto, Team>{
         TeamDto teamDto = new TeamDto();
         teamDto.setName(team.getName());
         teamDto.setId(team.getId());
+
         return teamDto;
     }
     public Team convertDtoToDaoUpdate(TeamDto teamDto, Team team) {

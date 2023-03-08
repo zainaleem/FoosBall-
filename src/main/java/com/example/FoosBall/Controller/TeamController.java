@@ -47,6 +47,14 @@ public class TeamController {
         return new ResponseEntity<TeamDto>(HttpStatus.OK);
     }
 
+    @PutMapping("/team/player")
+    public ResponseEntity<TeamDto> updateTeamWithPlayers(@RequestBody TeamDto teamDto)
+    {
+        teamService.updateTeamWithPlayer(teamDto);
+        return new ResponseEntity<TeamDto>(HttpStatus.OK);
+    }
+
+
     @PatchMapping("/team/{id}")
     public TeamDto patchTeam(@PathVariable Long id, @RequestBody TeamDto teamDto) {
         return teamService.patch(id, teamDto);
@@ -63,5 +71,6 @@ public class TeamController {
         teamService.deleteUsingName(name);
         return new ResponseEntity<TeamDto>(HttpStatus.OK);
     }
+
 
 }

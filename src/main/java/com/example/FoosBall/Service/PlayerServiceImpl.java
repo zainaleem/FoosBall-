@@ -5,7 +5,9 @@ import com.example.FoosBall.Adapter.TeamAdapter;
 import com.example.FoosBall.Dtos.PlayerDto;
 import com.example.FoosBall.Dtos.TeamDto;
 import com.example.FoosBall.Entity.Player;
+//import com.example.FoosBall.Entity.PlayerRating;
 import com.example.FoosBall.Entity.Team;
+import com.example.FoosBall.Enum.PlayerSkill;
 import com.example.FoosBall.Exception.NameException;
 import com.example.FoosBall.Exception.RecordNotFoundException;
 import com.example.FoosBall.Repository.PlayerRepository;
@@ -64,12 +66,13 @@ public class PlayerServiceImpl implements Service<PlayerDto>{
                 throw new NameException("Only alphabets and spaces are allowed for student's name.");
             }
         }
-        Team team = null;
-        Optional<Team> teamOptional = teamRepo.findById(dto.getTeamDto().getId());
-        if(teamOptional.isPresent()){
-            team = teamOptional.get();
-        }
-        Player player = playerRepo.save(playerAdapter.convertDtoToDao(dto,team));
+//        Team team = null;
+//        Optional<Team> teamOptional = teamRepo.findById(dto.getTeamDto().getId());
+//        if(teamOptional.isPresent()){
+//            team = teamOptional.get();
+//        }
+        //Player player = playerRepo.save(playerAdapter.convertDtoToDao(dto,team));
+        Player player = playerRepo.save(playerAdapter.convertDtoToDao(dto));
         return playerAdapter.convertDaoToDto(player);
     }
 
