@@ -43,9 +43,17 @@ public class PlayerServiceImpl implements Service<PlayerDto>{
     return playerNames;
     }
 
-    public PlayerDto findByPlayerName(String name) {
+    public PlayerDto findByPlayerName(String name) throws RecordNotFoundException {
         PlayerAdapter playerAdapter=new PlayerAdapter();
-        Player player = playerRepo.findByName(name);
+        Optional<Player> playerOptional = playerRepo.findByName(name);
+        Player player = null;
+        if(playerOptional.isPresent()){
+            player = playerOptional.get();
+        }
+        else {
+            throw new RecordNotFoundException("Player not found. Try with space between name");
+        }
+
         return playerAdapter.convertDaoToDto(player);
     }
 
@@ -88,10 +96,11 @@ public class PlayerServiceImpl implements Service<PlayerDto>{
     }
 
     @Override
-    public void deleteUsingName(String name) {
-        Player player = playerRepo.findByName(name);
-        if(player != null){
-            playerRepo.delete(player);
+    public void deleteUsingName(String name) throws RecordNotFoundException {
+
+        Optional<Player> playerOptional = playerRepo.findByName(name);
+        if(playerOptional.isPresent()){
+            playerRepo.delete(playerOptional.get());
         }
         else {
             throw new RecordNotFoundException("Player not found");

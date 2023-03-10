@@ -1,7 +1,6 @@
 package com.example.FoosBall.Dtos;
 
-//import com.example.FoosBall.Entity.PlayerRating;
-import com.example.FoosBall.Enum.PlayerSkill;
+import com.example.FoosBall.Entity.PlayerRating;
 
 public class PlayerDto {
 
@@ -11,7 +10,7 @@ public class PlayerDto {
 
     private Integer age;
 
-    //private PlayerRatingDto playerRatingDto;
+    private PlayerRating playerRating;
 
     private TeamDto teamDto;
 
@@ -39,13 +38,13 @@ public class PlayerDto {
         this.age = age;
     }
 
-//    public PlayerRatingDto getPlayerRatingDto() {
-//        return playerRatingDto;
-//    }
-//
-//    public void setPlayerRatingDto(PlayerRatingDto playerRatingDto) {
-//        this.playerRatingDto = playerRatingDto;
-//    }
+    public PlayerRating getPlayerRating() {
+        return playerRating;
+    }
+
+    public void setPlayerRating(PlayerRating playerRating) {
+        this.playerRating = playerRating;
+    }
 
     public TeamDto getTeamDto() {
         return teamDto;

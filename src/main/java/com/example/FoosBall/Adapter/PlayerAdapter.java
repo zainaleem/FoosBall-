@@ -30,22 +30,23 @@ public class PlayerAdapter implements Adapter<PlayerDto, Player>{
         Player player = new Player();
         player.setName(playerDto.getName());
         player.setAge(playerDto.getAge());
+        player.setPlayerRating(playerDto.getPlayerRating());
         return player;
     }
 
     @Override
     public PlayerDto convertDaoToDto(Player player) {
         PlayerDto playerDto = new PlayerDto();
-        TeamAdapter teamAdapter = new TeamAdapter();
-        TeamDto teamDto = teamAdapter.convertDaoToDto(player.getTeam());
+        //TeamAdapter teamAdapter = new TeamAdapter();
+        //TeamDto teamDto = teamAdapter.convertDaoToDto(player.getTeam());
 //        PlayerRatingAdapterImpl playerRatingAdapter = new PlayerRatingAdapterImpl();
 //        PlayerRatingDto playerRatingDto = playerRatingAdapter.convertDaoToDto(player.getPlayerRating());
 
         playerDto.setName(player.getName());
         playerDto.setAge(player.getAge());
         playerDto.setId(player.getId());
-        //playerDto.setPlayerRatingDto(playerRatingDto);
-        playerDto.setTeamDto(teamDto);
+        playerDto.setPlayerRating(player.getPlayerRating());
+        //playerDto.setTeamDto(teamDto);
         return playerDto;
     }
 
@@ -61,7 +62,9 @@ public class PlayerAdapter implements Adapter<PlayerDto, Player>{
         } else if (playerDto.getAge()!= null) {
             player.setAge(playerDto.getAge());
         }
-
+        else if (playerDto.getPlayerRating()!= null) {
+            player.setPlayerRating(playerDto.getPlayerRating());
+        }
         return player;
     }
 }

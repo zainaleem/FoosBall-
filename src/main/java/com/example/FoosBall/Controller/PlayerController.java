@@ -4,6 +4,7 @@ import com.example.FoosBall.Dtos.PlayerDto;
 import com.example.FoosBall.Dtos.TeamDto;
 import com.example.FoosBall.Entity.Player;
 import com.example.FoosBall.Exception.NameException;
+import com.example.FoosBall.Exception.RecordNotFoundException;
 import com.example.FoosBall.Repository.PlayerRepository;
 import com.example.FoosBall.Service.PlayerServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,14 +55,21 @@ public class PlayerController {
         //return new ResponseEntity<>(playerRepo.findAllNames(), HttpStatus.OK);
         return new ResponseEntity<>(playerService.findAll(), HttpStatus.OK);
     }
-    @GetMapping("/playerNames")
+    @GetMapping("/player/names")
     public ResponseEntity<List<String>> getPlayerNames() {
         return new ResponseEntity<>(playerService.findAllPlayerNames(), HttpStatus.OK);
 
     }
     @GetMapping("/player/{name}")
     public ResponseEntity<PlayerDto> getPlayerByName(@PathVariable String name) {
-        return new ResponseEntity<>(playerService.findByPlayerName(name), HttpStatus.OK);
+        try{
+            PlayerDto playerDto = playerService.findByPlayerName(name);
+            return new ResponseEntity<>(playerDto,HttpStatus.OK);
+        }
+        catch (RecordNotFoundException recordNotFoundException){
+            System.out.println(recordNotFoundException.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/players/team/{teamName}")
@@ -95,15 +103,21 @@ public class PlayerController {
         return playerService.patch(id, playerDto);
     }
 
-    @DeleteMapping("/player/{id}")
+    @DeleteMapping("/player/id/{id}")
     public ResponseEntity<PlayerDto> deletePlayer(@PathVariable Long id){
         playerService.deleteUsingId(id);
         return new ResponseEntity<PlayerDto>(HttpStatus.OK);
     }
-    @DeleteMapping("/player/{name}")
+    @DeleteMapping("/player/name/{name}")
     public ResponseEntity<PlayerDto> deletePlayerUsingName(@PathVariable String name){
-        playerService.deleteUsingName(name);
-        return new ResponseEntity<PlayerDto>(HttpStatus.OK);
+        try{
+            playerService.deleteUsingName(name);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (RecordNotFoundException recordNotFoundException){
+            System.out.println(recordNotFoundException.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }

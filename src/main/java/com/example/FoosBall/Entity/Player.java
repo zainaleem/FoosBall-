@@ -1,6 +1,7 @@
 package com.example.FoosBall.Entity;
 
 import com.example.FoosBall.Enum.PlayerSkill;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -17,14 +18,15 @@ public class Player {
     @Column(name = "player_age")
     private Integer age;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "player_rating_id")
-//    //@Enumerated(EnumType.STRING)
-//    private PlayerRating playerRating;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "player_rating_id")
+    @JsonIgnore
+    private PlayerRating playerRating;
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
+
 
     public Team getTeam() {
         return team;
@@ -34,13 +36,13 @@ public class Player {
         this.team = team;
     }
 
-//    public PlayerRating getPlayerRating() {
-//        return playerRating;
-//    }
-//
-//    public void setPlayerRating(PlayerRating playerRating) {
-//        this.playerRating = playerRating;
-//    }
+    public PlayerRating getPlayerRating() {
+        return playerRating;
+    }
+
+    public void setPlayerRating(PlayerRating playerRating) {
+        this.playerRating = playerRating;
+    }
 
     public Long getId() {
         return id;

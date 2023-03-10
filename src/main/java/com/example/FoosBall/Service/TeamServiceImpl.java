@@ -106,13 +106,18 @@ public class TeamServiceImpl implements Service<TeamDto>{
         return teamAdapter.convertDaoToDto(patchTeam);
     }
 
-    public TeamDto updateTeamWithPlayer(TeamDto teamDto){
+    public TeamDto updateTeamWithPlayer(TeamDto teamDto) throws RecordNotFoundException{
         PlayerAdapter playerAdapter = new PlayerAdapter();
         TeamAdapter teamAdapter = new TeamAdapter();
         List<Player> playerList = new ArrayList<>();
 
         teamDto.getPlayerDtoList().forEach(playerDto -> {
-            playerList.add(playerRepository.findByName(playerDto.getName()));
+            Optional<Player> playerOptional = playerRepository.findByName(playerDto.getName());
+            if(playerOptional.isPresent()){
+            playerList.add(playerOptional.get());}
+            else{
+                throw new RecordNotFoundException("Player not found");
+            }
         });
 
         Team team = teamRepo.findByName(teamAdapter.convertDtoToDao(teamDto).getName());
