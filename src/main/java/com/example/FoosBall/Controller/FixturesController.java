@@ -36,9 +36,7 @@ public class FixturesController {
 	public ResponseEntity<String> add_match_with_teams( @PathVariable Long id,@PathVariable Long id1) {
 		return new ResponseEntity<>(matchService.addMatchwithavailableTeamids(id,id1),HttpStatus.OK);
 	}
-	
-	
-	
+
 	@PutMapping("/add_Winner_team_id_with_match_id/{idwinner}/{idfixture}")
 	public ResponseEntity<String> addWinnerteamwithmatch(@PathVariable Long idwinner,@PathVariable Long idfixture) {
 	return new ResponseEntity<>(matchService.addWinnerteamidwithmatchid(idwinner,idfixture), HttpStatus.OK) ;
