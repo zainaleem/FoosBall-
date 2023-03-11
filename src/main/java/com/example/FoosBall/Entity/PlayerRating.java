@@ -13,17 +13,46 @@ public class PlayerRating {
     @Column(name = "player_rating_id")
     private Long id;
 
-    @Column(name="fore_hand_skill")
     @Convert(converter= PlayerSkillConverter.class)
     private PlayerSkill foreHandSkill;
 
-    @Column(name="back_hand_skill")
     @Convert(converter=PlayerSkillConverter.class)
     private PlayerSkill backHandSkill;
+
+    @Column
+    private Float matchesWon;
+    @Column
+    private Float totalMatches;
+
+    @Column
+    private Float winPercentage;
 
     @OneToOne(mappedBy = "playerRating",orphanRemoval = true)
     @JsonIgnore
     private Player player;
+
+    public Float getMatchesWon() {
+        return matchesWon;
+    }
+
+    public void setMatchesWon(Float matchesWon) {
+        this.matchesWon = matchesWon;
+    }
+    public Float getTotalMatches() {
+        return totalMatches;
+    }
+
+    public void setTotalMatches(Float totalMatches) {
+        this.totalMatches = totalMatches;
+    }
+
+    public Float getWinPercentage() {
+        return winPercentage;
+    }
+
+    public void setWinPercentage(Float winPercentage) {
+        this.winPercentage = winPercentage;
+    }
 
 
     public Long getId() {
