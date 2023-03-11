@@ -11,18 +11,18 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class PointsCard {
-	
-	
+
+
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "position")
    private Long Position;
-	
-	
+
+
    @Column(name = "team_name")
    private String TeamName;
-    
+
    @Column(name = "points")
    private Long Points;
 

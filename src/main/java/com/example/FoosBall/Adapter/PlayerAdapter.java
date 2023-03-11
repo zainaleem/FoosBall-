@@ -1,5 +1,6 @@
 package com.example.FoosBall.Adapter;
 
+import com.example.FoosBall.Dtos.PlayerDetailsDto;
 import com.example.FoosBall.Dtos.PlayerDto;
 import com.example.FoosBall.Dtos.PlayerRatingDto;
 import com.example.FoosBall.Dtos.TeamDto;
@@ -41,11 +42,16 @@ public class PlayerAdapter implements Adapter<PlayerDto, Player>{
         //TeamDto teamDto = teamAdapter.convertDaoToDto(player.getTeam());
 //        PlayerRatingAdapterImpl playerRatingAdapter = new PlayerRatingAdapterImpl();
 //        PlayerRatingDto playerRatingDto = playerRatingAdapter.convertDaoToDto(player.getPlayerRating());
-
+        PlayerDetailsDto playerDetailsDto = null;
+        if(player.getPlayerDetails()!=null) {
+            PlayerDetailsAdapter playerDetailsAdapter = new PlayerDetailsAdapter();
+            playerDetailsDto = playerDetailsAdapter.convertDaoToDto(player.getPlayerDetails());
+        }
         playerDto.setName(player.getName());
         playerDto.setAge(player.getAge());
         playerDto.setId(player.getId());
         playerDto.setPlayerRating(player.getPlayerRating());
+        playerDto.setPlayerDetailsDto(playerDetailsDto);
         //playerDto.setTeamDto(teamDto);
         return playerDto;
     }

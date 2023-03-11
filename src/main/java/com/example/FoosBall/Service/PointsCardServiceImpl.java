@@ -21,23 +21,23 @@ import org.modelmapper.ModelMapper;
 
 @Service
 public class PointsCardServiceImpl implements PointsCardInterface {
-	
+
 	@Autowired
     FixturesRepository MatchRepo;
-	
+
 	@Autowired
 	PointsCardRepository PointsRepo;
-	
+
 	@Autowired
 	TeamRepository TeamRepo;
-	
+
 	@Autowired
 	ModelMapper modelmapper;
-	
+
 	public String updatePointstable() {
-		
+
     List<String> teamListfromTeam = TeamRepo.findByName();
-    List<String> teamListfromMatch = MatchRepo.findByName();
+    List<String> teamListfromMatch = MatchRepo.findByWinner_Team_Name();
     List<PointsCard> pointsCardlist = new ArrayList<>();
     long count = 0;
      for( String team1 : teamListfromTeam) {
@@ -54,27 +54,27 @@ public class PointsCardServiceImpl implements PointsCardInterface {
     	 pointsCard.setTeamName(team1);
     	 pointsCardlist.add(pointsCard);
           count = 0;
-      }  
-	} 
-	
+      }
+	}
+
 	Collections.sort(pointsCardlist, new Comparator<PointsCard>(){
 		public int compare(PointsCard ob, PointsCard ob1){
 			 if(ob.getPoints().compareTo(ob1.getPoints())<0){
 				 return 1;
 			}
-			 if(ob.getPoints().compareTo(ob1.getPoints())>0) 
+			 if(ob.getPoints().compareTo(ob1.getPoints())>0)
 				 return -1;
 			 else
-				 return 0;	 
+				 return 0;
 			 }
 		 });
 	PointsRepo.saveAll(pointsCardlist);
 	return "message sent";
 }
-	
-	
-	
-	
+
+
+
+
 	public List<PointsCardDto> getallPointslist()  {
 	  List<PointsCard> list = PointsRepo.findAll();
 	  List<PointsCardDto> pointsCarddto_list = new ArrayList<>();
@@ -89,9 +89,9 @@ public class PointsCardServiceImpl implements PointsCardInterface {
 	  }
 		return pointsCarddto_list;
 	}
-	
-	
-	
+
+
+
 	public PointsCardDto getPointsbyid(Long id) {
 		Optional<PointsCard> pointsCard = PointsRepo.findById(id);
 		PointsCard Pointscard = pointsCard .orElseThrow();
@@ -102,49 +102,49 @@ public class PointsCardServiceImpl implements PointsCardInterface {
 //	   	  System.out.println("null value");
 //	   	  return null;
 //		}
-		
-		
+
+
 	public PointsCardDto updateteambyid(PointsCardDto pointstdto , Long id){
 	Optional <PointsCard> points = PointsRepo.findById(id);
 		// PointsCard dt = modelmapper.map(st, TeamDto.class);
 	if(points.isPresent()){
 		PointsCard pointsCard  =  points.get();
-		
+
 		if(pointstdto.getPoints()!=null) {
-		   pointsCard.setPoints(id); 
-		} 
-		if(pointstdto.getPosition()!=null) {   
+		   pointsCard.setPoints(id);
+		}
+		if(pointstdto.getPosition()!=null) {
 		  pointsCard.setPosition(pointstdto.getPosition());
 		}
-		
+
 		if(pointstdto.getTeamName()!=null) {
 		  pointsCard.setTeamName(pointstdto.getTeamName());
 		}
 		PointsRepo.save(pointsCard);
-		
-    }	
+
+    }
 		return pointstdto;
-	}	
-	
-	
+	}
+
+
 	public PointsCardDto deletepointsCardbyId(Long id){
 		PointsCardDto points = modelmapper.map(PointsRepo.findById(id), PointsCardDto.class);
 		PointsRepo.deleteById(id);
 		return points;
 	}
-	
+
 	 public String deleteAllPointslist(){
 		//PointsCardDto pointscard = modelmapper.map(PointsRepo.findById(id), PointsCardDto.class);
 		PointsRepo.deleteAll();
 		return "message sent";
-			
+
 		}
-			
-		
-		
-		
-		
-		
-	
-	
+
+
+
+
+
+
+
+
 }

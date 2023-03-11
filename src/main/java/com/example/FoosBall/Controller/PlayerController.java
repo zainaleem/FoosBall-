@@ -1,8 +1,10 @@
 package com.example.FoosBall.Controller;
 
+import com.example.FoosBall.Dtos.PlayerDetailsDto;
 import com.example.FoosBall.Dtos.PlayerDto;
 import com.example.FoosBall.Dtos.TeamDto;
 import com.example.FoosBall.Entity.Player;
+import com.example.FoosBall.Entity.PlayerDetails;
 import com.example.FoosBall.Exception.NameException;
 import com.example.FoosBall.Exception.RecordNotFoundException;
 import com.example.FoosBall.Repository.PlayerRepository;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/foosball")
+@RequestMapping("/api")
 public class PlayerController {
 
     @Autowired
@@ -33,23 +35,29 @@ public class PlayerController {
     PlayerRepository playerRepository;
 
     @PostMapping("/player/import")
-    public ResponseEntity<String> importData(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<String> importData(@RequestParam("file") MultipartFile file) /*throws IOException*/ {
+        try{
         List<Player> playerList = new ArrayList<>();
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
         for (Row row : sheet) {
-            Player playerDto = new Player();
-            playerDto.setName(row.getCell(0).getStringCellValue());
-            //playerDto.setAge(row.getCell(1).getNumericCellValue());
-            playerList.add(playerDto);
+            Player player = new Player();
+            PlayerDetails playerDetails = new PlayerDetails();
+            player.setName(row.getCell(0).getStringCellValue());
+            playerList.add(player);
         }
-        workbook.close();
-        playerRepository.saveAll(playerList);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(playerList);
-        return ResponseEntity.ok(json);
-    }
+            workbook.close();
+            playerRepository.saveAll(playerList);
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(playerList);
+            return ResponseEntity.ok(json);
+        }
+        catch (IOException ioException){
+            System.out.println("IO Exception");
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
 
+        }
     @GetMapping("/players")
     public ResponseEntity<List<PlayerDto>> getPlayers() {
         //return new ResponseEntity<>(playerRepo.findAllNames(), HttpStatus.OK);
@@ -61,7 +69,7 @@ public class PlayerController {
 
     }
     @GetMapping("/player/{name}")
-    public ResponseEntity<PlayerDto> getPlayerByName(@PathVariable String name) {
+    public ResponseEntity<PlayerDto> getPlayerByName    (@PathVariable String name) {
         try{
             PlayerDto playerDto = playerService.findByPlayerName(name);
             return new ResponseEntity<>(playerDto,HttpStatus.OK);
@@ -96,6 +104,12 @@ public class PlayerController {
     {
         playerService.update(id,playerDto);
         return new ResponseEntity<PlayerDto>(HttpStatus.OK);
+    }
+
+    @PutMapping("/player/details")
+    public ResponseEntity<PlayerDto> updatePlayerWithDetails(@RequestBody PlayerDto playerDto){
+        PlayerDto updateDto = playerService.updatePlayerDetails(playerDto);
+        return new ResponseEntity<PlayerDto>(updateDto,HttpStatus.OK);
     }
 
     @PatchMapping("/player/{id}")

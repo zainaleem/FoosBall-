@@ -51,21 +51,16 @@ public class Fixtures {
 	
 //	@Column(name = "Winner_Team_Id")
 //    private Long Winner_Team_Id;
-	
-	
+
 	@Column(name = "Winner_Team_Name")
 	private String Winner_Team_Name;
-	
 //	@OneToOne()
 //	@Column(name = "Loosing_Team_Id")
 //    private Long Loosing_Team_Id;
-//	
-	
+//
 	@Column(name = "Loosing_Team_Name")
 	private String Loosing_Team_Name;
-	
-	
-	
+
 	@ManyToMany()//fetch = FetchType.LAZY)
 	@JoinTable(
 	name = "Team_vs_Team", 
@@ -73,7 +68,6 @@ public class Fixtures {
 	inverseJoinColumns = @JoinColumn(name = "Team_Id"))
 	@Column(name = "Team")
 	private  List <Team> Team_vs_Team;
-
 
 
 	public Fixtures(Long match_Id, LocalDate match_Date, LocalTime match_Time, String team_A, String team_B,
@@ -95,20 +89,13 @@ public class Fixtures {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-
-
 	public Long getMatch_Id() {
 		return Match_Id;
 	}
 
-
-
 	public void setMatch_Id(Long match_Id) {
 		Match_Id = match_Id;
 	}
-
-
 
 	public LocalDate getMatch_Date() {
 		return Match_Date;
@@ -120,82 +107,50 @@ public class Fixtures {
 		Match_Date = match_Date;
 	}
 
-
-
 	public LocalTime getMatch_Time() {
 		return Match_Time;
 	}
-
-
 
 	public void setMatch_Time(LocalTime match_Time) {
 		Match_Time = match_Time;
 	}
 
-
-
 	public String getTeam_A() {
 		return Team_A;
 	}
-
-
-
 	public void setTeam_A(String team_A) {
 		Team_A = team_A;
 	}
-
-
 
 	public String getTeam_B() {
 		return Team_B;
 	}
 
-
-
 	public void setTeam_B(String team_B) {
 		Team_B = team_B;
 	}
-
-
-
 	public String getWinner_Team_Name() {
 		return Winner_Team_Name;
 	}
-
-
 
 	public void setWinner_Team_Name(String winner_Team_Name) {
 		Winner_Team_Name = winner_Team_Name;
 	}
 
-
-
 	public String getLoosing_Team_Name() {
 		return Loosing_Team_Name;
 	}
-
-
 
 	public void setLoosing_Team_Name(String loosing_Team_Name) {
 		Loosing_Team_Name = loosing_Team_Name;
 	}
 
-
-
 	public List<Team> getTeam_vs_Team() {
 		return Team_vs_Team;
 	}
 
-
-
 	public void setTeam_vs_Team(List<Team> team_vs_Team) {
 		Team_vs_Team = team_vs_Team;
 	}
-
-
-     
-    
-	
-	
 
 		}

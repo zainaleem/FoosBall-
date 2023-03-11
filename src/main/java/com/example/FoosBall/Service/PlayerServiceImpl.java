@@ -2,14 +2,17 @@ package com.example.FoosBall.Service;
 
 import com.example.FoosBall.Adapter.PlayerAdapter;
 import com.example.FoosBall.Adapter.TeamAdapter;
+import com.example.FoosBall.Dtos.PlayerDetailsDto;
 import com.example.FoosBall.Dtos.PlayerDto;
 import com.example.FoosBall.Dtos.TeamDto;
 import com.example.FoosBall.Entity.Player;
 //import com.example.FoosBall.Entity.PlayerRating;
+import com.example.FoosBall.Entity.PlayerDetails;
 import com.example.FoosBall.Entity.Team;
 import com.example.FoosBall.Enum.PlayerSkill;
 import com.example.FoosBall.Exception.NameException;
 import com.example.FoosBall.Exception.RecordNotFoundException;
+import com.example.FoosBall.Repository.PlayerDetailsRepo;
 import com.example.FoosBall.Repository.PlayerRepository;
 import com.example.FoosBall.Repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class PlayerServiceImpl implements Service<PlayerDto>{
 
     @Autowired
     TeamRepository teamRepo;
+
+    @Autowired
+    PlayerDetailsRepo playerDetailsRepo;
 
     public List<PlayerDto> findAll(){
         PlayerAdapter playerAdapter = new PlayerAdapter();
@@ -85,7 +91,7 @@ public class PlayerServiceImpl implements Service<PlayerDto>{
     }
 
     @Override
-    public void deleteUsingId(Long id) {
+    public void deleteUsingId(Long id) throws RecordNotFoundException{
         Optional<Player> playerOptional = playerRepo.findById(id);
         if(playerOptional.isPresent()){
             playerRepo.delete(playerOptional.get());
@@ -132,5 +138,18 @@ public class PlayerServiceImpl implements Service<PlayerDto>{
             playerRepo.save(patchPlayer);
         }
         return playerAdapter.convertDaoToDto(patchPlayer);
+    }
+
+    public PlayerDto updatePlayerDetails(PlayerDto playerDto){
+        PlayerAdapter playerAdapter = new PlayerAdapter();
+        Optional<Player> playerOptional = playerRepo.findByName(playerDto.getName());
+        Player player=null;
+        if(playerOptional.isPresent()){
+            player = playerOptional.get();
+        }
+        PlayerDetails playerDetails = playerDetailsRepo.findByPlayerName(playerDto.getPlayerDetailsDto().getPlayerName());
+        player.setPlayerDetails(playerDetails);
+        playerRepo.save(player);
+        return playerAdapter.convertDaoToDto(player);
     }
 }

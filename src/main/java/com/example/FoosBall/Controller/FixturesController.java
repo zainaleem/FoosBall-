@@ -26,11 +26,9 @@ import com.example.FoosBall.Service.FixtureServiceInterface;
 
 @RestController
 public class FixturesController {
-	
-	
+
 	@Autowired
 	FixtureServiceInterface matchService;
-	
 
 	@PostMapping("/add_match_with_available_Team_id/{id}/{id1}")
 	public ResponseEntity<String> add_match_with_teams( @PathVariable Long id,@PathVariable Long id1) {
@@ -41,42 +39,40 @@ public class FixturesController {
 	public ResponseEntity<String> addWinnerteamwithmatch(@PathVariable Long idwinner,@PathVariable Long idfixture) {
 	return new ResponseEntity<>(matchService.addWinnerteamidwithmatchid(idwinner,idfixture), HttpStatus.OK) ;
 	}
-	
-	
+
+
 	@PostMapping("/randomFixtureswithAvailableteams")
 	public ResponseEntity<String> randomFixtureswithAvailableteams() {
 	return new ResponseEntity<>(matchService.randomFixtureswithAvailableteams(),HttpStatus.OK);
 	}
-	
-	
-	
+
+
+
 
 	@PostMapping("fixturesDate_TimeSet/{matchesperday}/{stdate}/{endate}/{stmonth}/{endmonth}/{year}/{stTime}/{enTime}/{gapInminutes}")
 	public ResponseEntity<String> fixturesDate_TimeSet(@PathVariable int matchesperday,@PathVariable int stdate,@PathVariable int endate, @PathVariable int stmonth, @PathVariable int endmonth, @PathVariable int year, @PathVariable int stTime, @PathVariable  int enTime, @PathVariable int gapInminutes) {
 	return new ResponseEntity<>(matchService.fixturesDate_TimeSet(matchesperday, stdate, endate , stmonth, endmonth, year, stTime,  enTime, gapInminutes), HttpStatus.OK);
 	}
-	
-	
-	
+
+
+
 	@GetMapping("/get_all_matches")
 	public ResponseEntity<List<FixturesDto>> get_matches(){
 	return new ResponseEntity<>(matchService.getallFixtureswithteams(),HttpStatus.OK);
 	}
 
-	
-	
 	@GetMapping("get_match_by_id/{id}")
 	public ResponseEntity<FixturesDto> get_match_by_id(@PathVariable Long id){
 	return new ResponseEntity<>( matchService.getFixturebyid(id), HttpStatus.OK);
 	}
 
-	
+
 	@PutMapping("update_match_by_id/{id}")
 	public ResponseEntity<String> update_match(@RequestBody FixturesDto fixdto, @PathVariable Long id) {
 	return new ResponseEntity<> (matchService.updateFixturebyid(fixdto , id), HttpStatus.OK);
     }
-     
-	
+
+
 	@DeleteMapping("delete_match_by_id/{id}")
 	public ResponseEntity<FixturesDto> deletefixture(@PathVariable Long id){
 	return new ResponseEntity<> (matchService.deletefixture(id), HttpStatus.OK);
@@ -87,8 +83,5 @@ public class FixturesController {
 	ResponseEntity<String> deleteallfixture(){
 	return new ResponseEntity<>( matchService.deleteallfixture(),HttpStatus.OK);
 	}
-
-	
-	
 
 }

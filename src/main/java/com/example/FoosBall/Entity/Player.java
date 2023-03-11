@@ -23,10 +23,22 @@ public class Player {
     @JsonIgnore
     private PlayerRating playerRating;
 
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "player_detail_id")
+    @JsonIgnore
+    private PlayerDetails playerDetails;
+
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
+    public PlayerDetails getPlayerDetails() {
+        return playerDetails;
+    }
+
+    public void setPlayerDetails(PlayerDetails playerDetails) {
+        this.playerDetails = playerDetails;
+    }
 
     public Team getTeam() {
         return team;

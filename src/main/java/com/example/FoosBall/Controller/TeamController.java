@@ -2,7 +2,9 @@ package com.example.FoosBall.Controller;
 
 import com.example.FoosBall.Dtos.PlayerDto;
 import com.example.FoosBall.Dtos.TeamDto;
+import com.example.FoosBall.Entity.Team;
 import com.example.FoosBall.Exception.NameException;
+import com.example.FoosBall.Exception.RecordNotFoundException;
 import com.example.FoosBall.Service.TeamServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class TeamController {
     @Autowired
     TeamServiceImpl teamService;
@@ -43,15 +46,21 @@ public class TeamController {
     @PutMapping("/team/{id}")
     public ResponseEntity<TeamDto> updateTeam(@PathVariable Long id,@RequestBody TeamDto teamDto)
     {
-        teamService.update(id,teamDto);
-        return new ResponseEntity<TeamDto>(HttpStatus.OK);
+        TeamDto dto = teamService.update(id,teamDto);
+        return new ResponseEntity<TeamDto>(dto,HttpStatus.OK);
     }
 
     @PutMapping("/team/player")
     public ResponseEntity<TeamDto> updateTeamWithPlayers(@RequestBody TeamDto teamDto)
     {
-        teamService.updateTeamWithPlayer(teamDto);
-        return new ResponseEntity<TeamDto>(HttpStatus.OK);
+        try{
+        TeamDto dto = teamService.updateTeamWithPlayer(teamDto);
+        return new ResponseEntity<TeamDto>(dto,HttpStatus.OK);
+    }
+    catch (RecordNotFoundException recordNotFoundException){
+        System.out.println(recordNotFoundException.getMessage());
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     }
 
 
@@ -62,8 +71,14 @@ public class TeamController {
 
     @DeleteMapping("/team/{id}")
     public ResponseEntity<TeamDto> deleteTeam(@PathVariable Long id){
+        try{
         teamService.deleteUsingId(id);
         return new ResponseEntity<TeamDto>(HttpStatus.OK);
+    }
+        catch (RecordNotFoundException recordNotFoundException){
+            System.out.println(recordNotFoundException.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/team/{name}")

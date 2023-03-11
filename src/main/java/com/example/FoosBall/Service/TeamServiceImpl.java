@@ -107,7 +107,6 @@ public class TeamServiceImpl implements Service<TeamDto>{
     }
 
     public TeamDto updateTeamWithPlayer(TeamDto teamDto) throws RecordNotFoundException{
-        PlayerAdapter playerAdapter = new PlayerAdapter();
         TeamAdapter teamAdapter = new TeamAdapter();
         List<Player> playerList = new ArrayList<>();
 
@@ -119,13 +118,11 @@ public class TeamServiceImpl implements Service<TeamDto>{
                 throw new RecordNotFoundException("Player not found");
             }
         });
-
         Team team = teamRepo.findByName(teamAdapter.convertDtoToDao(teamDto).getName());
         playerList.forEach(player -> {
             player.setTeam(team);
             team.addPlayer(player);
         });
-
         teamRepo.save(team);
         return teamAdapter.convertDaoToDto(team);
     }

@@ -20,40 +20,40 @@ import com.example.FoosBall.Service.PointsCardInterface;
 
 @RestController
 public class PointsCardController {
-	
+
 	@Autowired
 	PointsCardInterface pointsCardservice;
-	
+
 	@PostMapping("/update_Pointstable")
 	public ResponseEntity<String> update_Pointstable() {
 	return new ResponseEntity<>( pointsCardservice.updatePointstable(), HttpStatus.OK);
 	}
-	
-	
+
+
 	@GetMapping("/get_all_points_list")
 	public ResponseEntity<List<PointsCardDto>> get_teams(){
 	return new ResponseEntity<>(pointsCardservice.getallPointslist(),HttpStatus.OK);
 	}
-	
-	
+
+
 	@GetMapping("get_points_by_id/{id}")
 	public ResponseEntity<PointsCardDto> get_team_by_id(@PathVariable Long id){
 	return new ResponseEntity<>( pointsCardservice.getPointsbyid(id),HttpStatus.OK);
 	}
-	
-	
+
+
 	@DeleteMapping("delete_points_by_id/{id}")
 	public ResponseEntity<PointsCardDto> delete_student(@PathVariable Long id){
 	return new ResponseEntity<> (pointsCardservice.deletepointsCardbyId(id),HttpStatus.OK);
 	}
 
-	
+
 	@DeleteMapping("delete_all_Points")
 	public ResponseEntity<String> deleteallfixture(){
 	return new ResponseEntity<>( pointsCardservice.deleteAllPointslist(),HttpStatus.OK);
 	}
-	
-	
-	
+
+
+
 
 }
