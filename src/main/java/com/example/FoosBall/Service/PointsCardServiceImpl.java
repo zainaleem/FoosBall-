@@ -36,7 +36,7 @@ public class PointsCardServiceImpl implements PointsCardInterface {
 
 	public String updatePointstable() {
 
-    List<String> teamListfromTeam = TeamRepo.findByName();
+    List<String> teamListfromTeam = TeamRepo.findAllByName();
     List<String> teamListfromMatch = MatchRepo.findByWinner_Team_Name();
     List<PointsCard> pointsCardlist = new ArrayList<>();
     long count = 0;

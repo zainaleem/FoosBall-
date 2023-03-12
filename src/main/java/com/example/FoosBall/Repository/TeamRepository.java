@@ -14,7 +14,6 @@ public interface TeamRepository extends JpaRepository<Team,Long> {
 
     Team findByName(String name);
     
-    
     @Query(value = "SELECT team_name FROM team",nativeQuery = true)
-	List<String> findByName();
+	List<String> findAllByName();
 }

@@ -35,16 +35,16 @@ public class TeamServiceImpl implements Service<TeamDto>{
         return teamDtoList;
     }
 
-//    public List<TeamDto> findByName() {
-//        TeamAdapter teamAdapter = new TeamAdapter();
-//        List<Team> teamList = teamRepo.findAll();
-//        List<TeamDto> teamDtoList = new ArrayList<>();
-//        for (Team team:teamList) {
-//            teamDtoList.add(teamAdapter.convertDaoToDto(team));
-//        }
-//        return teamDtoList;
-//    }
+    public TeamDto findByName(String teamName) {
+        TeamAdapter teamAdapter = new TeamAdapter();
+        Team team = teamRepo.findByName(teamName);
+        return teamAdapter.convertDaoToDto(team);
+    }
 
+    public List<String> findAllTeams() {
+        List<String> teamList = teamRepo.findAllByName();
+        return teamList;
+    }
     @Override
     public TeamDto add(TeamDto dto) throws NameException {
         TeamAdapter teamAdapter = new TeamAdapter();
@@ -110,7 +110,7 @@ public class TeamServiceImpl implements Service<TeamDto>{
         TeamAdapter teamAdapter = new TeamAdapter();
         List<Player> playerList = new ArrayList<>();
 
-        teamDto.getPlayerDtoList().forEach(playerDto -> {
+        teamDto.getPlayers().forEach(playerDto -> {
             Optional<Player> playerOptional = playerRepository.findByName(playerDto.getName());
             if(playerOptional.isPresent()){
             playerList.add(playerOptional.get());}

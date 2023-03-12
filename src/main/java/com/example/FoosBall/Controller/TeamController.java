@@ -1,8 +1,6 @@
 package com.example.FoosBall.Controller;
 
-import com.example.FoosBall.Dtos.PlayerDto;
 import com.example.FoosBall.Dtos.TeamDto;
-import com.example.FoosBall.Entity.Team;
 import com.example.FoosBall.Exception.NameException;
 import com.example.FoosBall.Exception.RecordNotFoundException;
 import com.example.FoosBall.Service.TeamServiceImpl;
@@ -19,29 +17,32 @@ public class TeamController {
     @Autowired
     TeamServiceImpl teamService;
 
-    @GetMapping("/team")
+    @GetMapping("/teams")
     public ResponseEntity<List<TeamDto>> getTeams() {
         return new ResponseEntity<>(teamService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/team/{teamName}")
-    public ResponseEntity<List<TeamDto>> getTeamByName() {
-        return new ResponseEntity<>(teamService.findAll(), HttpStatus.OK);
+    public ResponseEntity<TeamDto> getTeamByName(@PathVariable String teamName) {
+        return new ResponseEntity<>(teamService.findByName(teamName), HttpStatus.OK);
+    }
+
+    @GetMapping("/teams/names")
+    public ResponseEntity<List<String>> getAllTeams() {
+        return new ResponseEntity<>(teamService.findAllTeams(), HttpStatus.OK);
     }
     @PostMapping("/team")
-    public ResponseEntity<List<TeamDto>> addTeam(@RequestBody TeamDto teamDto) {
+    public ResponseEntity<TeamDto> addTeam(@RequestBody TeamDto teamDto) {
 
         try{
             teamService.add(teamDto);
-        }
-        catch (NameException nameException){
-            nameException.printStackTrace();
-            nameException.getMessage();
-        }
-
-        finally {
             return new ResponseEntity<>(HttpStatus.OK);
         }
+        catch (NameException nameException){
+            System.out.println(nameException.getMessage());
+            return new ResponseEntity<>(teamDto,HttpStatus.NOT_ACCEPTABLE);
+        }
+
     }
     @PutMapping("/team/{id}")
     public ResponseEntity<TeamDto> updateTeam(@PathVariable Long id,@RequestBody TeamDto teamDto)
@@ -62,8 +63,6 @@ public class TeamController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     }
-
-
     @PatchMapping("/team/{id}")
     public TeamDto patchTeam(@PathVariable Long id, @RequestBody TeamDto teamDto) {
         return teamService.patch(id, teamDto);

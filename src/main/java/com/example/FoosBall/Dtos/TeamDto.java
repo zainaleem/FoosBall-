@@ -1,5 +1,7 @@
 package com.example.FoosBall.Dtos;
 
+import com.example.FoosBall.Entity.Player;
+
 import java.util.List;
 
 public class TeamDto {
@@ -7,14 +9,23 @@ public class TeamDto {
 
     private String name;
 
-    private List<PlayerDto> playerDtoList;
+    private List<Player> players;
 
-    public List<PlayerDto> getPlayerDtoList() {
-        return playerDtoList;
+//    public List<PlayerDto> getPlayerDtoList() {
+//        return playerDtoList;
+//    }
+//
+//    public void setPlayerDtoList(List<PlayerDto> playerDtoList) {
+//        this.playerDtoList = playerDtoList;
+//    }
+
+
+    public List<Player> getPlayers() {
+        return players;
     }
 
-    public void setPlayerDtoList(List<PlayerDto> playerDtoList) {
-        this.playerDtoList = playerDtoList;
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 
     public Long getId() {

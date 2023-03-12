@@ -23,12 +23,12 @@ public class Player {
     @JsonIgnore
     private PlayerRating playerRating;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "player_detail_id")
     @JsonIgnore
     private PlayerDetails playerDetails;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 

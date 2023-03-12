@@ -17,7 +17,7 @@ public class Team {
     private String name;
 
     @OneToMany(mappedBy = "team",fetch = FetchType.LAZY)
-    //@JsonIgnore
+    @JsonIgnore
     private List<Player> players;
 
     public void addPlayer(Player player){

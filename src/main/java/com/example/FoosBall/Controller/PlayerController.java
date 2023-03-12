@@ -1,8 +1,6 @@
 package com.example.FoosBall.Controller;
 
-import com.example.FoosBall.Dtos.PlayerDetailsDto;
 import com.example.FoosBall.Dtos.PlayerDto;
-import com.example.FoosBall.Dtos.TeamDto;
 import com.example.FoosBall.Entity.Player;
 import com.example.FoosBall.Entity.PlayerDetails;
 import com.example.FoosBall.Exception.NameException;
@@ -93,9 +91,8 @@ public class PlayerController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (NameException nameException){
-            nameException.printStackTrace();
-            nameException.getMessage();
-            return null;
+            System.out.println(nameException.getMessage());
+            return new ResponseEntity<>(playerDto,HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
